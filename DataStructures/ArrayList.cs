@@ -195,6 +195,90 @@ namespace DataStructures
 
             return count;
         }
+        
+        public int GetAccessToAnArrayElementByIndex(int index)       //Получаем доступ к элементу по индексу 
+        {
+            if(index < _array.Length)                 // Проверяем, что введенный индекс входит в наш массив
+            {
+                if(_array[index].ToString() != "")    // Проверяем, что элемент с данным индексом имеет значение  
+                {
+                    return _array[index];
+                }    
+                else
+                {
+                    throw new Exception("Элемент массива с данным индексом не содержит значение");
+                }
+            else
+            {
+                throw new Exception("Введенный индекс превышает длину массива. Элемента с таким индексом не существует!");
+            }
+            }
+        }
+        
+        public int DetermineArrayIndexByValue(int value)      // Определяем индекс массива по значению 
+        {
+            if (value == null) 
+            {
+                throw new Exception("Введено некорректное значение. Введите целое число!");
+            }
+            
+            int index = -1;
+            
+            for (int i = 0; i < _array.Length; i++) 
+            {
+                if (_array[i] == value) 
+                {
+                    index = i;
+                    break;
+                }
+            
+            }
+            
+            if (index >= 0) 
+            {
+                return index;
+            }
+            else 
+            {
+                throw new Exception("Элемент с таким значением в массиве отсутствует!");
+            }
+        }
+        
+        
+        /*public int DetermineArrayIndexByValue(int value)      // Определяем индекс массива по значению 
+        {
+            if (value == null) 
+            {
+                throw new Exception("Введено некорректное значение. Введите целое число!");
+            }
+            
+            int index = FindTheIndexOfTheElementWithTheGivenValue(value);
+            
+            if (index >= 0) 
+            {
+                return index;
+            }
+            else 
+            {
+                throw new Exception("Элемент с таким значением в массиве отсутствует!");
+            }
+        }
+        
+        private int FindTheIndexOfTheElementWithTheGivenValue(int value)  
+        {
+            int index = -1;
+            
+            for (int i = 0; i < _array.Length; i++) 
+            {
+                if (_array[i] == value) 
+                {
+                    index = i;
+                    break;
+                }
+            
+            }
+            return index;
+        }*/
 
         
     }
