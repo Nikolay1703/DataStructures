@@ -17,7 +17,7 @@ namespace DataStructures
         {
             if (Length >= _array.Length)
             {
-                RizeSize();
+                RizeSize(1);
             }
             _array[Length] = value;
             Length++;
@@ -44,7 +44,7 @@ namespace DataStructures
             return true;
         }
 
-        private void RizeSize(int size = 1)   // Увеличивает массив на size количество элементов 
+        private void RizeSize(int size)   // Увеличивает массив на size количество элементов 
         {
             int newLength = _array.Length;
 
@@ -64,7 +64,7 @@ namespace DataStructures
         {
             if (Length >= _array.Length)
             {
-                RizeSize();
+                RizeSize(1);
             }
 
             ShiftArrayElementsOneElementToTheRight();
@@ -86,7 +86,7 @@ namespace DataStructures
         {
             if (Length >= _array.Length)
             {
-                RizeSize();
+                RizeSize(1);
             }
 
             ShiftItemsToTheRightStartingAtTheGivenIndex(index);
@@ -198,26 +198,32 @@ namespace DataStructures
         
         public int GetAccessToAnArrayElementByIndex(int index)       //Получаем доступ к элементу по индексу 
         {
-            if(index < _array.Length)                 // Проверяем, что введенный индекс входит в наш массив
+            int value = 0;
+            if (index < _array.Length && index >= 0)                 // Проверяем, что введенный индекс входит в наш массив
             {
-                if(_array[index].ToString() != "")    // Проверяем, что элемент с данным индексом имеет значение  
+                if (_array[index].ToString() != "")    // Проверяем, что элемент с данным индексом имеет значение  
                 {
-                    return _array[index];
-                }    
+                    value = _array[index];
+                    return value;
+                }
                 else
                 {
                     throw new Exception("Элемент массива с данным индексом не содержит значение");
                 }
+            }
             else
             {
-                throw new Exception("Введенный индекс превышает длину массива. Элемента с таким индексом не существует!");
-            }
+                throw new Exception("Введенный индекс не входит в массив. Элемента с таким индексом не существует!");
             }
         }
         
         public int DetermineArrayIndexByValue(int value)      // Определяем индекс массива по значению 
         {
-            if (value == null) 
+            int x = 0;
+            string s = "" + value;
+            bool result = int.TryParse(s, out x); 
+
+            if (result == false) 
             {
                 throw new Exception("Введено некорректное значение. Введите целое число!");
             }
@@ -243,10 +249,31 @@ namespace DataStructures
                 throw new Exception("Элемент с таким значением в массиве отсутствует!");
             }
         }
-        
-        
-       
 
-        
+        public void ChangeTheValueOfTheElementWithThePassedIndex(int value, int index) // Меняем значение элемента с переданным индексом
+        {
+            if (index < _array.Length && index >= 0)
+            {
+                if (value.ToString() != "")
+                {
+                    _array[index] = value;
+                }
+                else
+                {
+                    throw new Exception("Не было введено значение!");
+                }
+            }
+            else 
+            {
+                throw new Exception("Введенный индекс не входит в массив. Элемента с таким индексом не существует!");
+            }
+                
+        }
+
+
+
+
+
+
     }
 }
