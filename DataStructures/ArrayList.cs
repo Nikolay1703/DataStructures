@@ -245,40 +245,7 @@ namespace DataStructures
         }
         
         
-        /*public int DetermineArrayIndexByValue(int value)      // Определяем индекс массива по значению 
-        {
-            if (value == null) 
-            {
-                throw new Exception("Введено некорректное значение. Введите целое число!");
-            }
-            
-            int index = FindTheIndexOfTheElementWithTheGivenValue(value);
-            
-            if (index >= 0) 
-            {
-                return index;
-            }
-            else 
-            {
-                throw new Exception("Элемент с таким значением в массиве отсутствует!");
-            }
-        }
-        
-        private int FindTheIndexOfTheElementWithTheGivenValue(int value)  
-        {
-            int index = -1;
-            
-            for (int i = 0; i < _array.Length; i++) 
-            {
-                if (_array[i] == value) 
-                {
-                    index = i;
-                    break;
-                }
-            
-            }
-            return index;
-        }*/
+       
 
         
     }
