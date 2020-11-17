@@ -178,7 +178,7 @@ namespace DataStructures
 
             for (int i = index; i < newArray.Length; i++)
             {
-                newArray[index] = _array[index + 1];
+                newArray[i] = _array[i + 1];
             }
 
             _array = newArray;
@@ -411,6 +411,35 @@ namespace DataStructures
                     }
                 }
             }
+        }
+        
+        public DeleteTheFirstElementWithThePassedValue(int value)     // Удаляет первый элемент с переданным значением 
+        {
+            int index = DetermineTheIndexOfTheElementByValue(value);
+            
+            if (index >= 0) 
+            {
+                DecreaseTheArrayByTheElementAtThePassedIndex(index);
+            }
+            else 
+            {
+                throw new Exception("Элемент с таким значением в массиве отсутствует!");
+            }
+        }
+        
+        private int DetermineTheIndexOfTheElementByValue(int value)   //Возвращает индекс первого элемента с переданным значением
+        {
+            int index = -1;
+        
+            for (int i = 0; i < _array.Length; i++) 
+            {
+                if (value == _array[i]) 
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
         }
         
         
