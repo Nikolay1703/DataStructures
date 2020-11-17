@@ -348,29 +348,7 @@ namespace DataStructures
             
             return indexMaxElement;
         }
-        
-        public void FindTheIndexOfTheMaximumElement()    // Поиск индекса наибольшего элемента массива
-        {
-            int indexMaxElement = IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement();
-        }
-        
-        private int IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement() 
-        {
-            int indexMaxElement = 0;
-            int maxValue = _array[0];
-            
-            for (int i = 1; i < _array.Length; i++) 
-            {
-                if (maxValue < _array[i]) 
-                {
-                    maxValue = _array[i];
-                    indexMaxElement = i;
-                }
-            } 
-            
-            return indexMaxElement;
-        }
-        
+              
         public void FindTheIndexOfTheMinimumElement()    // Поиск индекса наименьшего элемента массива
         {
             int indexMinElement = IterateThroughTheArrayAndFindTheIndexOfTheMinimumElement();
