@@ -371,6 +371,48 @@ namespace DataStructures
             return indexMinElement;
         }
         
+        public void SortTheArrayInAscendingOrder()   // Сортировка массива по возрастанию
+        {
+            GoThroughTheArrayAndSortItInAscendingOrder();
+        }
+        
+        private void GoThroughTheArrayAndSortItInAscendingOrder() 
+        {
+            for (int i = _array.Length - 1; i >= 0; i--) 
+            {
+                for (int j = 0; j < i; j++) 
+                {
+                    if (_array[j] > _array[j+1]) 
+                    {
+                        int x = _array[j+1];
+                        _array[j+1] = _array[j];
+                        _array[j] = x;
+                    }
+                }
+            }
+        }
+        
+        public void SortTheArrayInDescendingOrder()   // Сортировка массива по убыванию
+        {
+            GoThroughTheArrayAndSortItInDescendingOrder();
+        }
+        
+        private void GoThroughTheArrayAndSortItInDescendingOrder() 
+        {
+            for (int i = _array.Length - 1; i >= 0; i--) 
+            {
+                for (int j = 0; j < i; j++) 
+                {
+                    if (_array[j] < _array[j+1]) 
+                    {
+                        int x = _array[j+1];
+                        _array[j+1] = _array[j];
+                        _array[j] = x;
+                    }
+                }
+            }
+        }
+        
         
 
 
