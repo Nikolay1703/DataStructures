@@ -269,6 +269,131 @@ namespace DataStructures
             }
                 
         }
+        
+        public void Reverse() // Реверс массива
+        {
+            DoTheReverseOfTheArray();
+        }
+        
+        private void DoTheReverseOfTheArray() 
+        {
+            int[] newArray = new int[_array.Length];
+            
+            for (int i = 0; i < newArray.Length; i++) 
+            {
+                newArray[i] = _array[_array.Length - 1 - i];
+            }
+            
+            _array = newArray;
+        }
+        
+        public void FindTheMaximumValue()    // Поиск наибольшего элемента массива
+        {
+            int maxValue = IterateThroughTheArrayAndFindTheMaximumValue();
+        }
+        
+        private int IterateThroughTheArrayAndFindTheMaximumValue() 
+        {
+            int maxValue = _array[0];
+            
+            foreach (int x in _array) 
+            {
+                if(maxValue < x) 
+                {
+                    maxValue = x;
+                }
+            }
+            
+            return maxValue;
+        }
+        
+        public void FindTheMinimumValue()    // Поиск наименьшего элемента массива
+        {
+            int minValue = IterateThroughTheArrayAndFindTheMinimumValue();
+        }
+        
+        private int IterateThroughTheArrayAndFindTheMinimumValue() 
+        {
+            int minValue = _array[0];
+            
+            foreach (int x in _array) 
+            {
+                if(minValue > x) 
+                {
+                    minValue = x;
+                }
+            }
+            
+            return minValue;
+        }
+        
+        public void FindTheIndexOfTheMaximumElement()    // Поиск индекса наибольшего элемента массива
+        {
+            int indexMaxElement = IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement();
+        }
+        
+        private int IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement() 
+        {
+            int indexMaxElement = 0;
+            int maxValue = _array[0];
+            
+            for (int i = 1; i < _array.Length; i++) 
+            {
+                if (maxValue < _array[i]) 
+                {
+                    maxValue = _array[i];
+                    indexMaxElement = i;
+                }
+            } 
+            
+            return indexMaxElement;
+        }
+        
+        public void FindTheIndexOfTheMaximumElement()    // Поиск индекса наибольшего элемента массива
+        {
+            int indexMaxElement = IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement();
+        }
+        
+        private int IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement() 
+        {
+            int indexMaxElement = 0;
+            int maxValue = _array[0];
+            
+            for (int i = 1; i < _array.Length; i++) 
+            {
+                if (maxValue < _array[i]) 
+                {
+                    maxValue = _array[i];
+                    indexMaxElement = i;
+                }
+            } 
+            
+            return indexMaxElement;
+        }
+        
+        public void FindTheIndexOfTheMinimumElement()    // Поиск индекса наименьшего элемента массива
+        {
+            int indexMinElement = IterateThroughTheArrayAndFindTheIndexOfTheMinimumElement();
+        }
+        
+        private int IterateThroughTheArrayAndFindTheIndexOfTheMinimumElement() 
+        {
+            int indexMinElement = 0;
+            int minValue = _array[0];
+            
+            for (int i = 1; i < _array.Length; i++) 
+            {
+                if (minValue > _array[i]) 
+                {
+                    minValue = _array[i];
+                    indexMinElement = i;
+                }
+            } 
+            
+            return indexMinElement;
+        }
+        
+        
 
 
 
