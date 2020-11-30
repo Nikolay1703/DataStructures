@@ -13,6 +13,25 @@ namespace DataStructures
             Length = 0;
         }
 
+        public ArrayList(int a) 
+        {
+            _array = new int[3];
+            _array[0] = a;
+            Length = 1;
+        }
+
+        public ArrayList(int[] array)
+        {
+            _array = new int[array.Length];
+            Array.Copy(array, _array, array.Length);
+            Length = array.Length;
+        }
+
+        public int[] ReturnValues()
+        {
+            return _array;
+        }
+
         public void Add(int value)        //Добавляет элемент в конец массива
         {
             if (Length >= _array.Length)
@@ -47,10 +66,11 @@ namespace DataStructures
         private void RizeSize(int size)   // Увеличивает массив на size количество элементов 
         {
             int newLength = _array.Length;
-
-            while(newLength < _array.Length + size)
+            
+            while(newLength < Length + size)
             {
-                newLength = (int)(newLength * 1.33d + 1);
+                //newLength = (int)(newLength * 1.33d + 1);
+                newLength = (int)(newLength + 1);
             }
 
             int[] newArray = new int[newLength];
@@ -67,19 +87,17 @@ namespace DataStructures
                 RizeSize(1);
             }
 
-            ShiftArrayElementsOneElementToTheRight();
+            ShiftArrayElementsToTheRight(1);
             _array[0] = value;
             Length++;
         }
 
-        private void ShiftArrayElementsOneElementToTheRight()   //Сдвигает элементы массива на один элемент вправо 
+        private void ShiftArrayElementsToTheRight(int n)   //Сдвигает элементы массива на n элементов вправо 
         {
-            int[] newArray = new int[_array.Length];
-            for(int i = 1; i < newArray.Length; i++)
+            for (int i = _array.Length - 1; i >= n; i--)
             {
-                newArray[i] = _array[i - 1];
+                _array[i] = _array[i - n];
             }
-            _array = newArray;
         }
 
         public void AddValueByIndex(int value, int index)   // Добавляет значение по индексу
@@ -89,20 +107,20 @@ namespace DataStructures
                 RizeSize(1);
             }
 
-            ShiftItemsToTheRightStartingAtTheGivenIndex(index);
+            ShiftItemsToTheRightStartingAtTheGivenIndex(index, 1);
             _array[index] = value;
             Length++;
         }
 
-        private void ShiftItemsToTheRightStartingAtTheGivenIndex(int index)  //Сдвигает элементы вправо начиная с заданного индекса
+        private void ShiftItemsToTheRightStartingAtTheGivenIndex(int index, int n)  //Сдвигает элементы вправо начиная с заданного индекса на n количество элементов
         {
             int[] newArray = new int[_array.Length];
 
             Array.Copy(_array, newArray, index);
             
-            for (int i = index; i < newArray.Length; i++)
+            for (int i = index + n; i < newArray.Length; i++)
             {
-                newArray[i + 1] = _array[i];
+                newArray[i] = _array[i - n];
             }
 
             _array = newArray;
@@ -110,19 +128,23 @@ namespace DataStructures
 
         public void Remove()          // Удаляет последний элемент массива
         {
-            DecreaseTheArrayByOneElement();
             
             if (Length == _array.Length)
             {
+                ReduceTheArrayByTheNumberOfElements(1);
                 Length--;
+            }
+            else if (Length < _array.Length)
+            {
+                ReduceTheArrayByTheNumberOfElements(1);
             }
         }
 
-        private void DecreaseTheArrayByOneElement()     // Уменьшает массив на один элемент
+        private void ReduceTheArrayByTheNumberOfElements(int n)     // Уменьшает массив на n элементов
         {
-            int[] newArray = new int[_array.Length - 1];
+            int[] newArray = new int[_array.Length - n];
 
-            Array.Copy(_array, newArray, _array.Length - 1);
+            Array.Copy(_array, newArray, _array.Length - n);
 
             _array = newArray;
         }
@@ -131,23 +153,23 @@ namespace DataStructures
         {
             if (_array[0].ToString() != "")
             {
-                DecreaseTheArrayByTheFirstElement();
+                ReduceTheArrayFromTheBeginningByTheNumberOfElements(1);
                 Length--;
             }
             else
             {
-                DecreaseTheArrayByTheFirstElement();
+                ReduceTheArrayFromTheBeginningByTheNumberOfElements(1);
             }
                 
         }
 
-        private void DecreaseTheArrayByTheFirstElement()       // Уменьшает массив на первый элемент
+        private void ReduceTheArrayFromTheBeginningByTheNumberOfElements(int n)       // Удаляет из начала массива n элементов
         {
-            int[] newArray = new int[_array.Length - 1];
+            int[] newArray = new int[_array.Length - n];
 
             for (int i = 0; i < newArray.Length; i++)
             {
-                newArray[i] = _array[i + 1];
+                newArray[i] = _array[i + n];
             }
 
             _array = newArray;
@@ -157,19 +179,19 @@ namespace DataStructures
         {
             if( _array[index].ToString() != "")
             {
-                DecreaseTheArrayByTheElementAtThePassedIndex(index);
+                DecreaseTheArrayByTheNumberOfElementsByIndex(index, 1);
                 Length--;
             }
             else
             {
-                DecreaseTheArrayByTheElementAtThePassedIndex(index);
+                DecreaseTheArrayByTheNumberOfElementsByIndex(index, 1);
             }
             
         }
 
-        private void DecreaseTheArrayByTheElementAtThePassedIndex(int index)  // Уменьшаем массив на элемент по индексу
+        private void DecreaseTheArrayByTheNumberOfElementsByIndex(int index, int n)  // Уменьшаем массив на N элементов по индексу
         {
-            int[] newArray = new int[_array.Length - 1];
+            int[] newArray = new int[_array.Length - n];
 
             for (int i = 0; i < index; i++)
             {
@@ -178,7 +200,7 @@ namespace DataStructures
 
             for (int i = index; i < newArray.Length; i++)
             {
-                newArray[i] = _array[i + 1];
+                newArray[i] = _array[i + n];
             }
 
             _array = newArray;
@@ -287,9 +309,10 @@ namespace DataStructures
             _array = newArray;
         }
         
-        public void FindTheMaximumValue()    // Поиск наибольшего элемента массива
+        public int FindTheMaximumValue()    // Поиск наибольшего элемента массива
         {
             int maxValue = IterateThroughTheArrayAndFindTheMaximumValue();
+            return maxValue;
         }
         
         private int IterateThroughTheArrayAndFindTheMaximumValue() 
@@ -307,9 +330,10 @@ namespace DataStructures
             return maxValue;
         }
         
-        public void FindTheMinimumValue()    // Поиск наименьшего элемента массива
+        public int FindTheMinimumValue()    // Поиск наименьшего элемента массива
         {
             int minValue = IterateThroughTheArrayAndFindTheMinimumValue();
+            return minValue;
         }
         
         private int IterateThroughTheArrayAndFindTheMinimumValue() 
@@ -327,9 +351,10 @@ namespace DataStructures
             return minValue;
         }
         
-        public void FindTheIndexOfTheMaximumElement()    // Поиск индекса наибольшего элемента массива
+        public int FindTheIndexOfTheMaximumElement()    // Поиск индекса наибольшего элемента массива
         {
             int indexMaxElement = IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement();
+            return indexMaxElement;
         }
         
         private int IterateThroughTheArrayAndFindTheIndexOfTheMaximumElement() 
@@ -349,9 +374,10 @@ namespace DataStructures
             return indexMaxElement;
         }
               
-        public void FindTheIndexOfTheMinimumElement()    // Поиск индекса наименьшего элемента массива
+        public int FindTheIndexOfTheMinimumElement()    // Поиск индекса наименьшего элемента массива
         {
             int indexMinElement = IterateThroughTheArrayAndFindTheIndexOfTheMinimumElement();
+            return indexMinElement;
         }
         
         private int IterateThroughTheArrayAndFindTheIndexOfTheMinimumElement() 
@@ -413,13 +439,13 @@ namespace DataStructures
             }
         }
         
-        public DeleteTheFirstElementWithThePassedValue(int value)     // Удаляет первый элемент с переданным значением 
+        public void DeleteTheFirstElementWithThePassedValue(int value)     // Удаляет первый элемент с переданным значением 
         {
             int index = DetermineTheIndexOfTheElementByValue(value);
             
             if (index >= 0) 
             {
-                DecreaseTheArrayByTheElementAtThePassedIndex(index);
+                DecreaseTheArrayByTheNumberOfElementsByIndex(index, 1);
             }
             else 
             {
@@ -441,8 +467,160 @@ namespace DataStructures
             }
             return index;
         }
+
+        public void RemoveAllElementsWithThePassedValue(int value)  // удаление по значению всех
+        {
+            int count = 0;
+            int initialLength = _array.Length;
+
+            for (int i = 0; i < _array.Length; i++)
+            {
+                if (value == _array[i])
+                {
+                    DecreaseTheArrayByTheNumberOfElementsByIndex(i, 1);
+                    i--;
+                    count++;
+                }
+            }
+
+            if(count == 0)
+            {
+                throw new Exception("Элементы с таким значением в массиве отсутствует!");
+            }
+        }
+
+        public void AddAnArrayOfElementsToTheEndOfTheArray(int[] array)   //Добавляем массив элементов в конец массива
+        {
+            int _arrayLength = _array.Length;
+            if (Length + array.Length > _array.Length)
+            {
+                RizeSize( (Length + array.Length) - _array.Length );
+            }
+
+            int index = 0;
+            for (int i = _arrayLength; i < _array.Length; i++)
+            {
+                _array[i] = array[index];
+                index++;
+            }
+
+            Length += array.Length;
+        }
+
+        public void AddAnArrayOfElementsToTheBeginningOfTheArray(int[] array)  //Добавляем массив элементов в начало массива
+        {
+            if (Length + array.Length > _array.Length)
+            {
+                RizeSize((Length + array.Length) - _array.Length);
+            }
+
+            ShiftArrayElementsToTheRight(array.Length);
+
+            for(int i = 0; i < array.Length; i++)
+            {
+                _array[i] = array[i];
+            }
+            Length += array.Length;
+        }
+
+        public void AddAnArrayOfElementsToTheArrayByIndex(int[] array, int index) //Добавляем массив элементов в массив по индексу
+        {
+            if (Length + array.Length > _array.Length)
+            {
+                RizeSize((Length + array.Length) - _array.Length);
+            }
+
+            ShiftItemsToTheRightStartingAtTheGivenIndex(index, array.Length);
+
+            int x = 0;
+            for(int i = index; i < index + array.Length; i++)
+            {
+                _array[i] = array[x];
+                x++;
+            }
+            Length += array.Length;
+
+        }
+
+        public void RemoveThePassedNumberOfElementsFromTheEndOfTheArray(int n)  // Удаляет из конца массива переданное количество элементов
+        {
+            if (n >= 0 && n <= _array.Length) 
+            {
+                int count = 0;
+                for (int i = _array.Length - 1; i > _array.Length - 1 - n; i--)
+                {
+                    if (_array[i].ToString() != "")
+                    {
+                        count++;
+                    }
+                }
+                ReduceTheArrayByTheNumberOfElements(n);
+                Length -= count;
+            }
+            else
+            {
+                throw new Exception("Значение N превышает длину массива!");
+            }
+        }
+
+        public void RemoveTheTransferredNumberOfElementsFromTheBeginningOfTheArray(int n) //  Удаляет из начала массива переданное количество элементов
+        {
+            if (n >= 0 && n <= _array.Length)
+            {
+                int count = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    if (_array[i].ToString() != "")
+                    {
+                        count++;
+                    }
+                }
+                ReduceTheArrayFromTheBeginningByTheNumberOfElements(n);
+                Length -= count;
+            }
+            else 
+            {
+                throw new Exception("Значение N превышает длину массива, , либо N меньше 0!");
+            }
+        }
+
+        public void RemoveTheNumberOfElementsFromTheArrayByIndex(int index, int n) // Удаляет из массива по индексу N количество элементов
+        {
+            if (n >= 0 && n <= _array.Length - index)
+            {
+                if (index >= 0 && index < _array.Length)
+                {
+                    int count = 0;
+                    for (int i = index; i < index + n; i++)
+                    {
+                        if (_array[i].ToString() != "")
+                        {
+                            count++;
+                        }
+                    }
+                    DecreaseTheArrayByTheNumberOfElementsByIndex(index, n);
+                    Length -= count;
+                }
+                else 
+                {
+                    throw new Exception("Элемент с таким индексом в массиве отсутствует!");
+                }
+            }
+            else
+            {
+                throw new Exception("Значение N превышает длину массива, либо N меньше 0!");
+            }
+        }
+
+
+
         
-        
+
+
+
+
+
+
 
 
 
