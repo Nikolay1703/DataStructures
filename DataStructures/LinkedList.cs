@@ -100,6 +100,31 @@ namespace DataStructures
 
         }
 
+        public void Add(int value)
+        {
+            RizeSize(1);
+
+            Node tmp = _root;
+            for(int i = 0; i < Length - 1; i++)
+            {
+                tmp = tmp.Next;
+            }
+            tmp.Value = value;
+            
+        }
+
+        private void RizeSize(int size)    
+        {
+            int newLength = Length;
+
+            while (newLength < Length + size)
+            {
+                newLength = newLength + 1;
+            }
+
+            Length = newLength;
+        }
+
 
     }
 
