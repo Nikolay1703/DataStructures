@@ -151,16 +151,8 @@ namespace DataStructures
 
         public void RemoveFirstElementOfArray()     // Удаляет первый элемент массива
         {
-            if (_array[0].ToString() != "")
-            {
-                ReduceTheArrayFromTheBeginningByTheNumberOfElements(1);
-                Length--;
-            }
-            else
-            {
-                ReduceTheArrayFromTheBeginningByTheNumberOfElements(1);
-            }
-                
+            ReduceTheArrayFromTheBeginningByTheNumberOfElements(1);
+            Length--;
         }
 
         private void ReduceTheArrayFromTheBeginningByTheNumberOfElements(int n)       // Удаляет из начала массива n элементов
@@ -177,16 +169,8 @@ namespace DataStructures
 
         public void RemoveElementByIndex(int index)         // Удаление элемента по индексу
         {
-            if( _array[index].ToString() != "")
-            {
-                DecreaseTheArrayByTheNumberOfElementsByIndex(index, 1);
-                Length--;
-            }
-            else
-            {
-                DecreaseTheArrayByTheNumberOfElementsByIndex(index, 1);
-            }
-            
+            DecreaseTheArrayByTheNumberOfElementsByIndex(index, 1);
+            Length--;
         }
 
         private void DecreaseTheArrayByTheNumberOfElementsByIndex(int index, int n)  // Уменьшаем массив на N элементов по индексу
@@ -549,10 +533,7 @@ namespace DataStructures
                 int count = 0;
                 for (int i = _array.Length - 1; i > _array.Length - 1 - n; i--)
                 {
-                    if (_array[i].ToString() != "")
-                    {
-                        count++;
-                    }
+                   count++;
                 }
                 ReduceTheArrayByTheNumberOfElements(n);
                 Length -= count;
@@ -570,10 +551,7 @@ namespace DataStructures
                 int count = 0;
                 for (int i = 0; i < n; i++)
                 {
-                    if (_array[i].ToString() != "")
-                    {
-                        count++;
-                    }
+                    count++;
                 }
                 ReduceTheArrayFromTheBeginningByTheNumberOfElements(n);
                 Length -= count;
@@ -593,10 +571,7 @@ namespace DataStructures
                     int count = 0;
                     for (int i = index; i < index + n; i++)
                     {
-                        if (_array[i].ToString() != "")
-                        {
-                            count++;
-                        }
+                        count++;
                     }
                     DecreaseTheArrayByTheNumberOfElementsByIndex(index, n);
                     Length -= count;
