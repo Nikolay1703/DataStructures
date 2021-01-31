@@ -474,35 +474,21 @@ namespace DataStructures
 
         public void Reverse()
         {
-            Node current = _root;
-            int[] array = new int[Length];
-
-            array[0] = current.Value;
-            for (int i = 1; i < Length; i++)
+            if (Length == 0)
             {
-                current = current.Next;
-                array[i] = current.Value;
+                return;
             }
 
-            int[] newArray = ReverseArray(array);
+            Node oldRoot = _root;
+            Node tmp;
 
-            _root.Value = newArray[0];
-            current = _root;
-            for (int i = 1; i < Length; i++)
+            while (oldRoot.Next != null)
             {
-                current = current.Next;
-                current.Value = newArray[i];
+                tmp = oldRoot.Next;
+                oldRoot.Next = tmp.Next;
+                tmp.Next = _root;
+                _root = tmp;
             }
-        }
-
-        private int[] ReverseArray(int[] array)
-        {
-            int[] newArray = new int[array.Length];
-            for (int i = 0; i < newArray.Length; i++)
-            {
-                newArray[i] = array[array.Length - 1 - i];
-            }
-            return newArray;
         }
 
         public int FindMaxValue()

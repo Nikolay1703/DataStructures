@@ -6,7 +6,7 @@ using DataStructures;
 
 namespace DataStructures.Tests
 {
-    class LinkedListTest
+    public class LinkedListTest
     {
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0, 1)]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 4, 5)]
