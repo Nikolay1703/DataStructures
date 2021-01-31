@@ -210,6 +210,26 @@ namespace DataStructures.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 6 )]
+        [TestCase(new int[] { 1 }, 1 )]
+        [TestCase(new int[] { 1, 2, 3, 4 }, -1 )]
+        [TestCase(new int[] { 1, 2 }, 2 )]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 15 )]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 5 )]
+        public void RemoveByIndexTestNegative(int[] array, int index)
+        {
+            LinkedList linkedList = new LinkedList(array);
+            try
+            {
+                linkedList.RemoveByIndex(index);
+            }
+            catch
+            {
+                Assert.Pass();
+            }
+            Assert.Fail();
+        }
+
         [TestCase(new int[] { 1 }, 0, 1, new int[] { })]
         [TestCase(new int[] { 1, 2, 3, 4 }, 0, 4, new int[] { })]
         [TestCase(new int[] { 1, 2, 3, 4 }, 0, 2, new int[] { 3, 4 })]
@@ -226,6 +246,25 @@ namespace DataStructures.Tests
             LinkedList actual = new LinkedList(array);
             actual.RemoveFewByIndex(index, n);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1 }, 1, 1 )]
+        [TestCase(new int[] { 1, 2, 3, 4 }, -1, 4 )]
+        [TestCase(new int[] { 1, 2, 3, 4 }, 4, 2 )]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 7, 4 )]
+        [TestCase(new int[] { 1, 2 }, 3, 1 )]
+        public void RemoveFewByIndexTestNegative(int[] array, int index, int n)
+        {
+            LinkedList linkedList = new LinkedList(array);
+            try
+            {
+                linkedList.RemoveFewByIndex(index, n);
+            }
+            catch
+            {
+                Assert.Pass();
+            }
+            Assert.Fail();
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 5 )]

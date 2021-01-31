@@ -125,7 +125,7 @@ namespace DataStructures
                 }
                 current.Next = tmp;
             }
-            RizeSize(1);
+            Length++; ;
 
         }
 
@@ -139,14 +139,13 @@ namespace DataStructures
                 tmp = new Node(array[0]);
                 _root = tmp;
                 current = _root;
-                RizeSize(1);
                 for (int i = 1; i < array.Length; i++)
                 {
                     tmp = new Node(array[i]);
                     current.Next = tmp;
                     current = current.Next;
-                    RizeSize(1);
                 }
+                Length += array.Length;
             }
             else
             {
@@ -159,7 +158,7 @@ namespace DataStructures
                         current = current.Next;
                     }
                     current.Next = tmp;
-                    RizeSize(1);
+                    Length++;
                 }
             }
         }
@@ -178,7 +177,7 @@ namespace DataStructures
                 _root = tmp;
                 tmp.Next = current;
             }
-            RizeSize(1);
+            Length++;
 
         }
 
@@ -195,7 +194,7 @@ namespace DataStructures
                     tmp = new Node(array[i]);
                     _root = tmp;
                     tmp.Next = current;
-                    RizeSize(1);
+                    Length++;
                 }
             }
             else
@@ -206,7 +205,7 @@ namespace DataStructures
                     tmp = new Node(array[i]);
                     _root = tmp;
                     tmp.Next = current;
-                    RizeSize(1);
+                    Length++;
                 }
             }
         }
@@ -233,7 +232,7 @@ namespace DataStructures
                     current.Next = tmp;
                     tmp.Next = currentCopy;
                 }
-                RizeSize(1);
+                Length++;
             }
             else
             {
@@ -256,7 +255,7 @@ namespace DataStructures
                         tmp = new Node(array[i]);
                         _root = tmp;
                         tmp.Next = current;
-                        RizeSize(1);
+                        Length++;
                     }
                 }
                 else
@@ -272,7 +271,7 @@ namespace DataStructures
                         Node currentCopy = current.Next;
                         current.Next = tmp;
                         tmp.Next = currentCopy;
-                        RizeSize(1);
+                        Length++;
                     }
                 }
             }
@@ -280,18 +279,6 @@ namespace DataStructures
             {
                 throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
-        }
-
-        private void RizeSize(int size)
-        {
-            int newLength = Length;
-
-            while (newLength < Length + size)
-            {
-                newLength = newLength + 1;
-            }
-
-            Length = newLength;
         }
 
         public void RemoveLast()
@@ -302,7 +289,7 @@ namespace DataStructures
                 current = current.Next;
             }
             current.Next = null;
-            Length = Length - 1;
+            Length--;
         }
 
         public void RemoveFewLast(int n)
@@ -313,14 +300,14 @@ namespace DataStructures
                 current = current.Next;
             }
             current.Next = null;
-            Length = Length - n;
+            Length -= n;
         }
 
         public void RemoveFirst()
         {
             Node current = _root;
             _root = current.Next;
-            Length = Length - 1;
+            Length--;
         }
 
         public void RemoveFewFirst(int n)
@@ -329,55 +316,70 @@ namespace DataStructures
             for(int i = 0; i < n; i++)
             {
                 _root = current.Next;
-                Length = Length - 1;
                 current = _root;
+                Length--;
             }
             
         }
 
         public void RemoveByIndex(int index)
         {
-            Node current = _root;
-            if (index == 0)
+            if (index < Length && index >= 0)
             {
-                _root = current.Next;
+                Node current = _root;
+                if (index == 0)
+                {
+                    _root = current.Next;
+                }
+                else
+                {
+                    for (int i = 1; i < index; i++)
+                    {
+                        current = current.Next;
+                    }
+                    current.Next = current.Next.Next;
+                }
+                Length--;
             }
             else
             {
-                for (int i = 1; i < index; i++)
-                {
-                    current = current.Next;
-                }
-                current.Next = current.Next.Next;
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
-            Length = Length - 1;
+            
         }
 
         public void RemoveFewByIndex(int index, int n)
         {
-            Node current = _root;
-            if (index == 0)
+            if (index < Length && index >= 0)
             {
-                _root = current.Next;
-                Length = Length - 1;
-                for (int i = 2; i <= n; i++)
+                Node current = _root;
+                if (index == 0)
                 {
-                    current = _root;
                     _root = current.Next;
                     Length = Length - 1;
+                    for (int i = 2; i <= n; i++)
+                    {
+                        current = _root;
+                        _root = current.Next;
+                        Length--;
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < index; i++)
+                    {
+                        current = current.Next;
+                    }
+                    for (int i = 1; i <= n; i++)
+                    {
+                        current.Next = current.Next.Next;
+                        Length--;
+                    }
                 }
             }
             else
             {
-                for (int i = 1; i < index; i++)
-                {
-                    current = current.Next;
-                }
-                for (int i = 1; i <= n; i++)
-                {
-                    current.Next = current.Next.Next;
-                    Length = Length - 1;
-                }
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
         }
 
@@ -660,7 +662,7 @@ namespace DataStructures
             if (_root.Value == value)
             {
                 _root = current.Next;
-                Length = Length - 1;
+                Length--;
             }
             else
             {
@@ -669,7 +671,7 @@ namespace DataStructures
                     if (current.Next.Value == value)
                     {
                         current.Next = current.Next.Next;
-                        Length = Length - 1;
+                        Length--;
                         break;
                     }
                     else
@@ -695,13 +697,13 @@ namespace DataStructures
                 if (current.Next != null)
                 {
                     _root = current.Next;
-                    Length = Length - 1;
+                    Length--;
                     current = _root;
                 }
                 else
                 {
                     _root = null;
-                    Length = Length - 1;
+                    Length--;
                     break;
                 }
             }
@@ -714,7 +716,7 @@ namespace DataStructures
                     {
                         current.Next = current.Next.Next;
                         i--;
-                        Length = Length - 1;
+                        Length--;
                     }
                     else
                     {

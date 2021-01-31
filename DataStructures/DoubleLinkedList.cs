@@ -218,8 +218,6 @@ namespace DataStructures
         {
             if (index < Length && index >= 0)
             {
-                int half = IdentifyHalfList(index);
-
                 Node tmp = new Node(value);
                 Node current = _startRoot;
 
@@ -231,21 +229,9 @@ namespace DataStructures
                 }
                 else
                 {
-                    if (half == 1)
-                    {
-                        for (int i = 1; i < index; i++)
-                        {
-                            current = current.Next;
-                        }
-                    }
-                    else if (half == 2)
-                    {
-                        current = _lastRoot;
-                        for (int i = Length - 1; i >= index; i--)
-                        {
-                            current = current.Previous;
-                        }
-                    }
+                    int halfList = IdentifyHalfList(index);
+                    current = SelectItemByIndex(halfList, index);
+
                     Node currentCopy = current.Next;
                     current.Next = tmp;
                     tmp.Previous = current;
@@ -265,10 +251,8 @@ namespace DataStructures
         {
             if (index < Length && index >= 0)
             {
-                int half = IdentifyHalfList(index);
-
                 Node tmp;
-                Node current = _startRoot; 
+                Node current; 
 
                 if (index == 0)
                 {
@@ -284,21 +268,9 @@ namespace DataStructures
                 }
                 else
                 {
-                    if (half == 1)
-                    {
-                        for (int i = 1; i < index; i++)
-                        {
-                            current = current.Next;
-                        }
-                    }
-                    else if (half == 2)
-                    {
-                        current = _lastRoot;
-                        for (int i = Length - 1; i >= index; i--)
-                        {
-                            current = current.Previous;
-                        }
-                    }
+                    int halfList = IdentifyHalfList(index);
+                    current = SelectItemByIndex(halfList, index);
+
                     for (int i = array.Length - 1; i >= 0; i--)
                     {
                         tmp = new Node(array[i]);
@@ -317,13 +289,138 @@ namespace DataStructures
 
         private int IdentifyHalfList(int index)
         {
-            int half = 1;
+            int halfList = 1;
 
             if (index >= Length / 2)
             {
-                half = 2;
+                halfList = 2;
             }
-            return half;
+            return halfList;
         }
+
+        private Node SelectItemByIndex(int halfList, int index)
+        {
+            Node current = _startRoot;
+            if (halfList == 1)
+            {
+                for (int i = 1; i < index; i++)
+                {
+                    current = current.Next;
+                }
+            }
+            else if (halfList == 2)
+            {
+                current = _lastRoot;
+                for (int i = Length - 1; i >= index; i--)
+                {
+                    current = current.Previous;
+                }
+            }
+            return current;
+        } 
+
+        public void RemoveLast()
+        {
+            _lastRoot.Previous = null;
+            _lastRoot = _lastRoot.Previous;
+            Length--;
+        }
+
+        public void RemoveFewLast(int n)
+        {
+            if (Length == n)
+            {
+                _startRoot = null;
+            }
+            else
+            {
+                Node current = _lastRoot;
+                for (int i = Length - 1; i >= Length - n; i--)
+                {
+                    current = current.Previous;
+                }
+                current.Next = null;
+            }
+            Length = Length - n;
+        }
+
+        public void RemoveFirst()
+        {
+            Node current = _startRoot;
+            _startRoot = current.Next;
+            Length--;
+        }
+
+        public void RemoveFewFirst(int n)
+        {
+            Node current = _startRoot;
+            for (int i = 0; i < n; i++)
+            {
+                _startRoot = current.Next;
+                Length = Length - 1;
+                current = _startRoot;
+            }
+
+        }
+
+        public void RemoveByIndex(int index)
+        {
+            if (index < Length && index >= 0)
+            {
+                Node current = _startRoot;
+                if (index == 0)
+                {
+                    _startRoot = current.Next;
+                }
+                else
+                {
+                    int halfList = IdentifyHalfList(index);
+                    current = SelectItemByIndex(halfList, index);
+
+                    current.Next = current.Next.Next;
+                    current.Previous = current.Previous.Previous;
+                }
+                Length--;
+            }
+            else
+            {
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
+            }
+            
+        }
+
+        public void RemoveFewByIndex(int index, int n)
+        {
+            if (index < Length && index >= 0)
+            {
+                Node current = _startRoot;
+
+                if (index == 0)
+                {
+                    for (int i = 1; i <= n; i++)
+                    {
+                        current = current.Next;
+                    }
+                    _startRoot = current;
+                }
+                else
+                {
+                    int halfList = IdentifyHalfList(index);
+                    current = SelectItemByIndex(halfList, index);
+
+                    for (int i = 1; i <= n; i++)
+                    {
+                        current.Next = current.Next.Next;
+                    }
+                }
+                Length -= n;
+            }
+            else
+            {
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
+            }
+            
+        }
+
     }
 }
