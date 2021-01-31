@@ -213,59 +213,72 @@ namespace DataStructures
 
         public void AddByIndex(int value, int index)
         {
-            Node tmp = new Node(value);
-            Node current = _root;
-
-            if (index == 0)
+            if (index < Length && index >= 0)
             {
-                _root = tmp;
-                tmp.Next = current;
+                Node tmp = new Node(value);
+                Node current = _root;
+
+                if (index == 0)
+                {
+                    _root = tmp;
+                    tmp.Next = current;
+                }
+                else
+                {
+                    for (int i = 1; i < index; i++)
+                    {
+                        current = current.Next;
+                    }
+                    Node currentCopy = current.Next;
+                    current.Next = tmp;
+                    tmp.Next = currentCopy;
+                }
+                RizeSize(1);
             }
             else
             {
-                for (int i = 1; i < index; i++)
-                {
-                    current = current.Next;
-                }
-                Node currentCopy = current.Next;
-                current.Next = tmp;
-                tmp.Next = currentCopy;
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
-            RizeSize(1);
-
         }
 
         public void AddByIndexArray(int[] array, int index)
         {
-            Node tmp;
-            Node current;
-
-            if (index == 0)
+            if (index < Length && index >= 0)
             {
-                for (int i = array.Length - 1; i >= 0; i--)
+                Node tmp;
+                Node current;
+
+                if (index == 0)
+                {
+                    for (int i = array.Length - 1; i >= 0; i--)
+                    {
+                        current = _root;
+                        tmp = new Node(array[i]);
+                        _root = tmp;
+                        tmp.Next = current;
+                        RizeSize(1);
+                    }
+                }
+                else
                 {
                     current = _root;
-                    tmp = new Node(array[i]);
-                    _root = tmp;
-                    tmp.Next = current;
-                    RizeSize(1);
+                    for (int i = 1; i < index; i++)
+                    {
+                        current = current.Next;
+                    }
+                    for (int i = array.Length - 1; i >= 0; i--)
+                    {
+                        tmp = new Node(array[i]);
+                        Node currentCopy = current.Next;
+                        current.Next = tmp;
+                        tmp.Next = currentCopy;
+                        RizeSize(1);
+                    }
                 }
             }
             else
             {
-                current = _root;
-                for (int i = 1; i < index; i++)
-                {
-                    current = current.Next;
-                }
-                for(int i = array.Length - 1; i >= 0; i--)
-                {
-                    tmp = new Node(array[i]);
-                    Node currentCopy = current.Next;
-                    current.Next = tmp;
-                    tmp.Next = currentCopy;
-                    RizeSize(1);
-                }
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
         }
 

@@ -85,16 +85,32 @@ namespace DataStructures.Tests
         }
 
         [TestCase(new int[] { 1, 2, 4, 5 }, 3, 2, new int[] { 1, 2, 3, 4, 5 })]
-        [TestCase(new int[] { 1, 2 }, 3, 0, new int[] { 3, 1, 2 })]
-        [TestCase(new int[] { 1 }, 2, 1, new int[] { 1, 2 })]
-        [TestCase(new int[] { 1, 2, 3 }, 4, 3, new int[] { 1, 2, 3, 4 })]
-        [TestCase(new int[] { }, 100, 0, new int[] { 100 })]
+        [TestCase(new int[] { 1, 2 }, 3, 0, new int[] { 3, 1, 2 })]     
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 10 }, 9, 8, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })]
+        [TestCase(new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10 }, 3, 2, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })]
         public void AddByIndexTest(int[] array, int value, int index, int[] expArray)
         {
             LinkedList expected = new LinkedList(expArray);
             LinkedList actual = new LinkedList(array);
             actual.AddByIndex(value, index);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1 }, 2, 1)]
+        [TestCase(new int[] { 1, 2, 3 }, 4, 3)]
+        [TestCase(new int[] { 1, 2, 3 }, 4, -1)]
+        public void AddByIndexTestNegative(int[] array, int value, int index)
+        {
+            LinkedList linkedList = new LinkedList(array);
+            try
+            {
+                linkedList.AddByIndex(value, index);
+            }
+            catch
+            {
+                Assert.Pass();
+            }
+            Assert.Fail();
         }
 
         [TestCase(new int[] { 4, 5, 6, 7 }, new int[] { 1, 2, 3 }, 0, new int[] { 1, 2, 3, 4, 5, 6, 7 })]
@@ -111,6 +127,23 @@ namespace DataStructures.Tests
             LinkedList actual = new LinkedList(array);
             actual.AddByIndexArray(newArray, index);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1 }, new int[] { 1, 2, 3 }, 1)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3 }, 3)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, -1)]
+        public void AddByIndexArrayTestNegative(int[] array, int[] newArray, int index)
+        {
+            LinkedList linkedList = new LinkedList(array);
+            try
+            {
+                linkedList.AddByIndexArray(newArray, index);
+            }
+            catch
+            {
+                Assert.Pass();
+            }
+            Assert.Fail();
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4 })]
