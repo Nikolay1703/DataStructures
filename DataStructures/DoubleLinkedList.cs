@@ -317,7 +317,31 @@ namespace DataStructures
                 }
             }
             return current;
-        } 
+        }
+
+        private int SelectIndexByValue(int value)
+        {
+            Node current = _startRoot;
+            int index = -1;
+
+            if (_startRoot.Value == value)
+            {
+                index = 0;
+            }
+            else
+            {
+                for (int i = 1; i < Length; i++)
+                {
+                    current = current.Next;
+                    if (current.Value == value)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            return index;
+        }
 
         public void RemoveLast()
         {
@@ -367,19 +391,7 @@ namespace DataStructures
         {
             if (index < Length && index >= 0)
             {
-                Node current = _startRoot;
-                if (index == 0)
-                {
-                    _startRoot = current.Next;
-                }
-                else
-                {
-                    int halfList = IdentifyHalfList(index);
-                    current = SelectItemByIndex(halfList, index);
-
-                    current.Next = current.Next.Next;
-                    current.Previous = current.Previous.Previous;
-                }
+                RemoveItemByIndex(index);
                 Length--;
             }
             else
@@ -387,6 +399,27 @@ namespace DataStructures
                 throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
             
+        }
+
+        private void RemoveItemByIndex(int index)
+        {
+            Node current = _startRoot;
+            if (index == 0)
+            {
+                _startRoot = current.Next;
+            }
+            else if (index == Length - 1)
+            {
+                _lastRoot = _lastRoot.Previous;
+            }
+            else
+            {
+                int halfList = IdentifyHalfList(index);
+                current = SelectItemByIndex(halfList, index);
+
+                current.Next = current.Next.Next;
+                current.Next.Previous = current;
+            }
         }
 
         public void RemoveFewByIndex(int index, int n)
@@ -420,6 +453,320 @@ namespace DataStructures
                 throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
             
+        }
+
+        public int ReturnCount()
+        {
+            int count = 0;
+            Node current = _startRoot;
+            if (_startRoot == null)
+            {
+                count = 0;
+            }
+            else
+            {
+                count = 1;
+                for (int i = 1; i < Length; i++)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int ValueByIndex(int index)
+        {
+            Node current = _startRoot;
+            int value;
+
+            if (index < Length && index >= 0)
+            {
+                if (index == 0)
+                {
+                    value = current.Value;
+                }
+                else
+                {
+                    int halfList = IdentifyHalfList(index);
+                    current = SelectItemByIndex(halfList, index);
+
+                    value = current.Next.Value;                    
+                }
+                return value;
+            }
+            else
+            {
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
+            }
+
+        }
+
+        public int IndexByValue(int value)
+        {
+            int index = SelectIndexByValue(value);
+
+            if (index != -1)
+            {
+                return index;
+            }
+            else
+            {
+                throw new Exception("Ошибка! Элемент с введенным значением отсутствует!");
+            }
+        }
+
+        public void ChangeValueByIndex(int index, int value)
+        {
+            Node current = _startRoot;
+
+            if (index < Length && index >= 0)
+            {
+                if (index == 0)
+                {
+                    current.Value = value;
+                }
+                else
+                {
+                    int halfList = IdentifyHalfList(index);
+                    current = SelectItemByIndex(halfList, index);
+
+                    current.Next.Value = value;
+                }
+            }
+            else
+            {
+                throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
+            }
+        }
+
+        public void Reverse()
+        {
+            if (Length == 0)
+            {
+                return;
+            }
+
+            Node oldRoot = _startRoot;
+            Node tmp;
+
+            while (oldRoot.Next != null)
+            {
+                tmp = oldRoot.Next;
+                oldRoot.Next = tmp.Next;
+                tmp.Next = _startRoot;
+                _startRoot = tmp;
+            }
+        }
+
+        public int FindMaxValue()
+        {
+            Node current = _startRoot;
+            int maxValue = _startRoot.Value;
+
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                if (maxValue < current.Value)
+                {
+                    maxValue = current.Value;
+                }
+            }
+            return maxValue;
+        }
+
+        public int FindMinValue()
+        {
+            Node current = _startRoot;
+            int minValue = _startRoot.Value;
+
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                if (minValue > current.Value)
+                {
+                    minValue = current.Value;
+                }
+            }
+            return minValue;
+        }
+
+        public int FindIndexMaxValue()
+        {
+            Node current = _startRoot;
+            int maxValue = _startRoot.Value;
+            int index = 0;
+
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                if (maxValue < current.Value)
+                {
+                    maxValue = current.Value;
+                    index = i;
+                }
+            }
+            return index;
+        }
+
+        public int FindIndexMinValue()
+        {
+            Node current = _startRoot;
+            int minValue = _startRoot.Value;
+            int index = 0;
+
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                if (minValue > current.Value)
+                {
+                    minValue = current.Value;
+                    index = i;
+                }
+            }
+            return index;
+        }
+
+        public void SortAscending()
+        {
+            Node current = _startRoot;
+            int[] array = new int[Length];
+
+            array[0] = current.Value;
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                array[i] = current.Value;
+            }
+
+            SortAscendingArray(array);
+
+            _startRoot.Value = array[0];
+            current = _startRoot;
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                current.Value = array[i];
+            }
+
+        }
+
+        private void SortAscendingArray(int[] array)
+        {
+            for (int i = array.Length - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (array[j] > array[j + 1])
+                    {
+                        int x = array[j + 1];
+                        array[j + 1] = array[j];
+                        array[j] = x;
+                    }
+                }
+            }
+        }
+
+        public void SortDescending()
+        {
+            Node current = _startRoot;
+            int[] array = new int[Length];
+
+            array[0] = current.Value;
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                array[i] = current.Value;
+            }
+
+            SortDescendingArray(array);
+
+            _startRoot.Value = array[0];
+            current = _startRoot;
+            for (int i = 1; i < Length; i++)
+            {
+                current = current.Next;
+                current.Value = array[i];
+            }
+
+        }
+
+        private void SortDescendingArray(int[] array)
+        {
+            for (int i = array.Length - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (array[j] < array[j + 1])
+                    {
+                        int x = array[j + 1];
+                        array[j + 1] = array[j];
+                        array[j] = x;
+                    }
+                }
+            }
+        }
+
+        public void RemoveFirstByValue(int value)
+        {
+            int startLength = Length;
+            int index = SelectIndexByValue(value);
+            RemoveByIndex(index);
+
+            if (startLength == Length)
+            {
+                throw new Exception("Ошибка! Элемент с введенным значением отсутствует!");
+            }
+        }
+
+        public void RemoveAllByValue(int value)
+        {
+            int startLength = Length;
+
+            RemoveAllItemsByValue(value);
+
+            if (startLength == Length)
+            {
+                throw new Exception("Ошибка! Элементы с введенным значением отсутствуют!");
+            }
+
+        }
+
+        private void RemoveAllItemsByValue(int value)
+        {
+            Node current = _startRoot;
+
+            while (_startRoot.Value == value)
+            {
+                if (current.Next != null)
+                {
+                    _startRoot = current.Next;
+                    Length--;
+                    current = _startRoot;
+                }
+                else
+                {
+                    _startRoot = null;
+                    Length--;
+                    break;
+                }
+            }
+
+            if (_startRoot != null)
+            {
+                for (int i = 1; i < Length; i++)
+                {
+                    if (current.Next.Value == value)
+                    {
+                        current.Next = current.Next.Next;
+                        i--;
+                        Length--;
+                    }
+                    else
+                    {
+                        current = current.Next;
+                    }
+                }
+            }
         }
 
     }
