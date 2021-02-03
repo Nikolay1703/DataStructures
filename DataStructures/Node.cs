@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataStructures
 {
-    class Node
+    public class Node
     {
         public int Value { get; set; }
 

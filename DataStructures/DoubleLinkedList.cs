@@ -90,27 +90,48 @@ namespace DataStructures
             return s;
         }
 
-        public int this[int index]
+        public Node this[int index]
         {
             get
             {
                 Node tmp = _startRoot;
-                for (int i = 0; i < index; i++)
+                if (index < Length / 2)
                 {
-                    tmp = tmp.Next;
+                    for (int i = 0; i < index - 1; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
                 }
-                return tmp.Value;
+                else
+                {
+                    tmp = _lastRoot;
+                    for (int i = Length - 1; i >= index; i--)
+                    {
+                        tmp = tmp.Previous;
+                    }
+                }
+                return tmp;
             }
             set
             {
                 Node tmp = _startRoot;
-                for (int i = 0; i < index; i++)
+                if (index < Length / 2)
                 {
-                    tmp = tmp.Next;
+                    for (int i = 0; i < index; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
                 }
-                tmp.Value = value;
+                else
+                {
+                    tmp = _lastRoot;
+                    for (int i = Length - 1; i >= index; i--)
+                    {
+                        tmp = tmp.Previous;
+                    }
+                }
+                tmp.Value = this[index].Value;
             }
-
         }
 
         public void AddLast(int value)
@@ -229,9 +250,7 @@ namespace DataStructures
                 }
                 else
                 {
-                    int halfList = IdentifyHalfList(index);
-                    current = SelectItemByIndex(halfList, index);
-
+                    current = this[index];
                     Node currentCopy = current.Next;
                     current.Next = tmp;
                     tmp.Previous = current;
@@ -268,8 +287,7 @@ namespace DataStructures
                 }
                 else
                 {
-                    int halfList = IdentifyHalfList(index);
-                    current = SelectItemByIndex(halfList, index);
+                    current = this[index];
 
                     for (int i = array.Length - 1; i >= 0; i--)
                     {
@@ -285,38 +303,6 @@ namespace DataStructures
             {
                 throw new Exception("Ошибка! Элемент с введенным индексом отсутствует!");
             }
-        }
-
-        private int IdentifyHalfList(int index)
-        {
-            int halfList = 1;
-
-            if (index >= Length / 2)
-            {
-                halfList = 2;
-            }
-            return halfList;
-        }
-
-        private Node SelectItemByIndex(int halfList, int index)
-        {
-            Node current = _startRoot;
-            if (halfList == 1)
-            {
-                for (int i = 1; i < index; i++)
-                {
-                    current = current.Next;
-                }
-            }
-            else if (halfList == 2)
-            {
-                current = _lastRoot;
-                for (int i = Length - 1; i >= index; i--)
-                {
-                    current = current.Previous;
-                }
-            }
-            return current;
         }
 
         private int SelectIndexByValue(int value)
@@ -414,9 +400,7 @@ namespace DataStructures
             }
             else
             {
-                int halfList = IdentifyHalfList(index);
-                current = SelectItemByIndex(halfList, index);
-
+                current = this[index];
                 current.Next = current.Next.Next;
                 current.Next.Previous = current;
             }
@@ -438,8 +422,7 @@ namespace DataStructures
                 }
                 else
                 {
-                    int halfList = IdentifyHalfList(index);
-                    current = SelectItemByIndex(halfList, index);
+                    current = this[index];
 
                     for (int i = 1; i <= n; i++)
                     {
@@ -487,9 +470,7 @@ namespace DataStructures
                 }
                 else
                 {
-                    int halfList = IdentifyHalfList(index);
-                    current = SelectItemByIndex(halfList, index);
-
+                    current = this[index];
                     value = current.Next.Value;                    
                 }
                 return value;
@@ -527,9 +508,7 @@ namespace DataStructures
                 }
                 else
                 {
-                    int halfList = IdentifyHalfList(index);
-                    current = SelectItemByIndex(halfList, index);
-
+                    current = this[index];
                     current.Next.Value = value;
                 }
             }
